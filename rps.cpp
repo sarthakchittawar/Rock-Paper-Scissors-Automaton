@@ -80,11 +80,11 @@ int main()
                 next_state = "R";
             }
 
-            if (count == m)
+            if (count == m)     // In same DFA, loop back to some state to create win cycle
             {
                 for (int i = 0; i < draws.size(); i++)
                 {
-                    if (draws[i].first == opp_state)
+                    if (draws[i].first == opp_state)    // compares previous draws in same state, to find some state where i can lock the program onto forever
                     {
                         out_transitions[my_state][rps_out] = draws[i].second;
                         out_state = next_state;
@@ -96,10 +96,10 @@ int main()
                     }
                 }
                 count++;
-                break;
+                break;          // Now, make next DFA
             }
 
-            else
+            else                // Make next state of same DFA
             {
                 out_states.push_back(next_state);
                 vector<int> v(3);
@@ -139,7 +139,7 @@ int main()
     cout << total_size << endl;
 
     int my_state = 0;
-    for (int i = 1; i < in_states.size(); i++)
+    for (int i = 1; i < in_states.size(); i++)      // making transitions for if input state was the (i+1)th state
     {
         int my_state = 0;
         int opp_state = i;
@@ -148,9 +148,9 @@ int main()
         int rps_in, rps_out;
         int count = 0;
         vector<pair<int, int>> visited;
-        while (count++ < m * m)
+        while (count++ < m * m)                     // max no of states is m*m
         {
-            if (my_state < 0 || opp_state < 0)
+            if (my_state < 0 || opp_state < 0)      // Was giving a segfault somewhere as index was becoming < 0, so had to break out of loop
             {
                 break;
             }
@@ -182,16 +182,16 @@ int main()
             }
             
             int new_state = in_transitions[opp_state][rps_in] - 1;
-            visited.push_back(make_pair(opp_state, my_state));
+            visited.push_back(make_pair(opp_state, my_state));          // Keeps track of the draws (opp vs me) for a particular start state of opp
 
             if (out_transitions[my_state][rps_out] == 0 && (!(in_states[opp_state] == "R" && out_states[my_state] == "P") && !(in_states[opp_state] == "P" && out_states[my_state] == "S") && !(in_states[opp_state] == "S" && out_states[my_state] == "R")))
             {
-                out_transitions[my_state][rps_out] = 1 + new_state * each_size;
+                out_transitions[my_state][rps_out] = 1 + new_state * each_size;     // For losses, we transition to the DFA which corresponds to the next opp state
                 my_state = out_transitions[my_state][rps_out] - 1;
                 opp_state = new_state;
                 break;
             }
-            if (new_state == opp_state && my_state == out_transitions[my_state][rps_out] - 1)
+            if (new_state == opp_state && my_state == out_transitions[my_state][rps_out] - 1)   // For ties, if my state stalls, i need to take it to the DFA which corresponds to the next opp state
             {
                 out_transitions[my_state][rps_out] = 1 + new_state * each_size;
                 my_state = out_transitions[my_state][rps_out] - 1;
@@ -200,13 +200,13 @@ int main()
             }
 
             int size = visited.size();
-            for (int i = 3; i < m; i++)
+            for (int i = 3; i < m; i++)         // Checking for loss-loops of size 3 to size 'm', and redirecting states to respective win DFAs
             {
                 if (size <= i)
                 {
-                    break;
+                    break;      // If visited has size 'size', then max size of loss-loop can be 'size' too, so we break if > size
                 }
-                if (visited[size - 1] == visited[size - i] && visited[size - 2] == visited[size - i - 1])
+                if (visited[size - 1] == visited[size - i] && visited[size - 2] == visited[size - i - 1])   // comparing 2 consecutive draws of latest and (latest- i)th times
                 {
                     out_transitions[my_state][rps_out] = 1 + new_state * each_size;
                     visited[size - 1].second = out_transitions[my_state][rps_out];
