@@ -206,7 +206,7 @@ int main()
                 {
                     break;      // If visited has size 'size', then max size of loss-loop can be 'size' too, so we break if > size
                 }
-                if (visited[size - 1] == visited[size - i] && visited[size - 2] == visited[size - i - 1])   // comparing 2 consecutive draws of latest and (latest- i)th times
+                if (visited[size - 1] == visited[size - i] && visited[size - 2] == visited[size - i - 1])   // comparing 2 consecutive draws of latest and (latest- i)th
                 {
                     out_transitions[my_state][rps_out] = 1 + new_state * each_size;
                     visited[size - 1].second = out_transitions[my_state][rps_out];
