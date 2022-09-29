@@ -1,5 +1,5 @@
-# Automata-Theory-Assignment-2
-Implementation of a Rock Paper Scissors game, to beat opponent Automata
+# Rock Paper Scissors bot
+Implementation of a Rock Paper Scissors bot, which would beat opponent as many times as possible.
 
 ## Basic Logic:
     I have made ‘n’ DFAs, one for each input state(opponent state).
