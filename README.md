@@ -1,5 +1,5 @@
-# Rock Paper Scissors bot
-Implementation of a Rock Paper Scissors bot, which would beat opponent as many times as possible.
+# Rock Paper Scissors using Automata Theory
+Implementation of a Rock Paper Scissors Automaton, which would beat opponent as many times as possible.
 
 ## Basic Logic:
     I have made ‘n’ DFAs, one for each input state(opponent state).
